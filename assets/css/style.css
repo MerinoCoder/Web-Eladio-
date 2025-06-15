@@ -1,0 +1,662 @@
+/* 
+========================================
+🔁 RESET — Normalize spacing and box model
+========================================
+Esto elimina márgenes y rellenos por defecto en todos los elementos
+y usa un modelo de caja consistente donde el padding y border no 
+incrementan el tamaño total de los elementos.
+*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 
+========================================
+🧍 BODY — Fuente base, fondo general, color de texto
+========================================
+Define la fuente general, altura total, flexbox para organizar en columnas,
+y también el fondo que se verá detrás del contenido con una marca de agua.
+*/
+html, body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  background-color: #fffdf9;
+  color: #444;
+}
+
+h1, h2, h3 {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: #111;
+}
+
+p, a, li {
+  font-weight: 400;
+}
+/* Hace que el contenido crezca y empuje el footer abajo */
+main {
+  flex: 1;
+}
+
+/* 🎨 Fondo visual tipo marca de agua con imagen difuminada */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../img/taller.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  filter: blur(1px);
+  z-index: -1;
+}
+
+/* 
+========================================
+🟧 NAVBAR — Barra superior con logo y menú
+========================================
+Fija arriba al hacer scroll, con fondo blanco y sombra.
+*/
+.navbar {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.logo-img {
+  height: 50px;
+  object-fit: contain;
+  max-width: 350px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  font-family: 'Inter', sans-serif;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 10px 16px;
+  transition: color 0.3s, background 0.3s;
+  letter-spacing: 0.3px;
+  border-radius: 5px;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  background-color: #f2610d;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+}
+
+/* 
+/* 
+========================================
+🏷️ TÍTULO FLOTANTE SIN FONDO
+========================================
+Quita todo fondo y hace que el título "flote" sin caja blanca detrás.
+*/
+.section-title {
+  text-align: center;
+  margin: 20px auto 20px;
+  background: transparent !important; /* ✅ Asegura que no haya fondo */
+  box-shadow: none !important;       /* ✅ Elimina sombra si existe */
+  padding: 0;
+}
+
+.section-title h2 {
+  font-family: 'Inter', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #111;
+  background: transparent !important; /* ✅ Elimina fondo desde h2 */
+  padding: 0;
+  margin: 0 auto;
+  display: inline-block;
+  position: relative;
+}
+
+/* Línea naranja decorativa debajo del título */
+.section-title h2::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: #f2610d;
+  margin: 14px auto 0;
+  border-radius: 2px;
+}
+
+/* 
+========================================
+🛞 PRODUCTOS — Grilla de neumáticos
+========================================
+Tarjetas con imagen, nombre y botón animado "ver más".
+*/
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  margin-bottom: 60px; /* ✅ Esto sube el contenido alejándolo del footer */
+}
+
+.product-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  padding: 40px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 400px;
+  margin: auto;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.product-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.product-card h3 {
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  color: #111;
+}
+
+.product-card img {
+  max-width: 100%;
+  max-height: 220px;    /* ✅ Limita la altura para mantener consistencia */
+  height: auto;
+  object-fit: contain;  /* ✅ Escala sin distorsionar */
+  margin-bottom: 10px;
+}
+
+.toggle-info {
+  background-color: #f2610d;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.toggle-info:hover {
+  background-color: #d24e00;
+}
+
+.product-info {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, opacity 0.4s ease;
+  opacity: 0;
+  text-align: left;
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.product-info.active {
+  max-height: 500px;
+  opacity: 1;
+}
+
+
+
+
+
+/* 
+========================================
+📬 FORMULARIO DE CONTACTO — contacto.html
+Estilo limpio, ancho ampliado y compatible con móviles.
+========================================
+*/
+.contact-section {
+  max-width: 1000px;              /* ✅ Even narrower than before */
+  max-height: 900px;
+  width: 90%;                    /* ✅ Responsive width for smaller screens */
+  margin: 40px auto;             /* ✅ Reduce vertical spacing */
+  padding: 30px 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  color: #111;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;                      /* Más espacio entre campos */
+}
+
+.contact-form input,
+.contact-form textarea {
+  padding: 14px;                 /* Más cómodo para escribir */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: #f2610d;         /* Borde naranja al hacer clic */
+}
+
+.contact-form button {
+  background-color: #f2610d;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.contact-form button:hover {
+  background-color: #d24e00;
+}
+
+.main-section {
+  display: flex;
+  justify-content: center;  /* ✅ Centra horizontalmente el contenido */
+  padding: 40px 20px;       /* ✅ Añade espacio lateral */
+}
+
+
+/* 
+✅ Versión responsive para pantallas chicas 
+*/
+@media (max-width: 768px) {
+  .contact-section {
+    padding: 25px 15px;
+  }
+
+  .contact-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 0.95rem;
+  }
+
+  .contact-form button {
+    font-size: 1rem;
+  }
+}
+
+/* 
+========================================
+💬 BOTÓN DE WHATSAPP flotante en todas las páginas
+========================================
+Botón con ícono de WhatsApp que se mantiene visible en la esquina.
+*/
+.whatsapp-floating {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.whatsapp-floating img {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.whatsapp-floating img:hover {
+  transform: scale(1.1);
+}
+
+/* 
+========================================
+🌾 LOGOS AGRÍCOLAS — Grilla para logos
+========================================
+Presenta logos de marcas agrícolas con fondo blanco y sombra.
+*/
+.logo-collage-section {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: transparent
+}
+
+.logo-collage-section h2 {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #222;
+}
+
+.logo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* ✅ Fijamos 3 columnas */
+  gap: 25px;
+  max-width: 1000px;
+  margin: auto;
+  align-items: center;
+  justify-items: center;
+}
+
+/* Estilo de cada logo individual */
+.logo-grid img {
+  display: block;
+  width: 100%;
+  max-width: 160px;
+  height: auto;
+  background-color: #fff;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.logo-grid img:hover {
+  transform: scale(1.05);
+}
+
+
+/* 
+========================================
+🖼️ MARCAS DE AGUA — Lados izquierdo/derecho
+========================================
+Ideal para poner un logo o imagen decorativa semi-transparente.
+*/
+.left-watermark,
+.right-watermark {
+  position: fixed;
+  top: 100px;
+  height: 300px;
+  opacity: 0.09;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.left-watermark {
+  left: 0;
+}
+
+.right-watermark {
+  right: 0;
+}
+
+/* 
+========================================
+🔻 FOOTER — Pie de página general
+========================================
+Zona final del sitio con color oscuro, texto claro y logo incluido.
+*/
+.site-footer {
+  background-color: #222;
+  color: #f4f4f4;
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 0.95rem;
+  margin-top: 40px;
+}
+
+.site-footer .footer-content p {
+  margin: 5px 0;
+  line-height: 1.6;
+}
+
+/* Logo en el footer con tamaño adecuado */
+.site-footer .logo-img {
+  height: 50px;
+  object-fit: contain;
+  max-width: 350px;
+  margin-bottom: 10px;
+}
+
+/* 
+========================================
+📱 RESPONSIVE — Para celulares y tablets
+========================================
+Ajustes específicos para pantallas pequeñas.
+*/
+@media (max-width: 768px) {
+  /* Navbar en columna */
+  .navbar-container {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .logo-img {
+    height: 40px;
+    max-width: 180px;
+  }
+
+  .site-footer .logo-img {
+    height: 40px;
+    max-width: 180px;
+  }
+
+
+  .product-card {
+    padding: 12px;
+  }
+
+  .product-card p {
+    font-size: 0.95rem;
+  }
+}
+/* 🌙 MODO OSCURO FORZADO — evita que el navegador lo imponga automáticamente */
+@media (prefers-color-scheme: dark) {
+  body,
+  section,
+  .logo-collage-section {
+    background-color: #fffdf9 !important;
+    color: #222 !important;
+  }
+
+  .logo-grid img {
+    background-color: #fff !important;
+    filter: brightness(1) !important;
+  }
+
+  .site-footer {
+    background-color: #222 !important;
+    color: #f4f4f4 !important;
+  }
+
+  .contact-section,
+  .product-card {
+    background-color: #fff !important;
+    color: #222 !important;
+  }
+}
+/* 
+========================================
+✨ ANIMACIÓN DE ENTRADA para tarjetas de producto
+========================================
+*/
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.product-card {
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0; /* Inicialmente invisible hasta que se active la animación */
+}
+/* 🔻 Mantiene el footer al fondo en páginas con poco contenido */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 
+========================================
+🏢 SECCIÓN QUIÉNES SOMOS — Estilo centrado y limpio
+========================================
+*/
+.about-section {
+  max-width: 900px;              /* 👈 Limita el ancho del bloque */
+  margin: 0px auto 60px;           /* 👈 Centrado y separación del footer */
+  padding: 0 20px;               /* 👈 Padding lateral para móviles */
+  text-align: center;
+}
+
+.about-section h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 20px 0 16px;           /* 👈 Más pegado al texto */
+  color: #111;
+  position: relative;
+}
+
+.about-text {
+  line-height: 1.6;              /* 👈 Reduce separación vertical */
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.about-text p {
+  margin-bottom: 16px;           /* 👈 Menor espacio entre párrafos */
+}
+
+/* 🧠 Ajuste fino en móviles */
+@media (max-width: 768px) {
+  .about-section {
+    padding: 0 15px;
+  }
+
+  .about-section h2 {
+    font-size: 2rem;
+    margin-top: 60px;
+  }
+
+  .about-text {
+    font-size: 1rem;
+  }
+}
+
+/* 
+========================================
+🖼️ LOGO FINAL — Logo decorativo en sección "Quiénes Somos"
+========================================
+*/
+
+.about-logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.about-logo img {
+  max-width: 210px;       /* 🔧 Tamaño ideal para pantallas normales */
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.about-logo img:hover {
+  transform: scale(1.05); /* 🎯 Efecto visual al pasar el mouse */
+}
+
+/* Responsive para que no se agrande en celular */
+@media (max-width: 768px) {
+  .about-logo img {
+    max-width: 90px;
+    opacity: 0.25;
+  }
+}
+
+/* 
+========================================
+📢 GLOBAL ANNOUNCEMENT — Barra informativa permanente
+========================================
+*/
+.free-shipping-banner {
+   background-color: #f2610d;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  padding: 12px 25px;
+  max-width: 600px;
+  margin: 20px auto 10px; /* 👈 AQUI separamos del navbar arriba */
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* ✅ Responsive ajuste para móviles */
+@media (max-width: 768px) {
+  .global-announcement {
+    font-size: 1rem;
+    padding: 10px 16px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo-grid {
+    grid-template-columns: repeat(2, 1fr); /* ✅ 2 columnas en móviles */
+  }
+}
